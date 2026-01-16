@@ -7,10 +7,10 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
   <body>
-    <main class="p-3">
-      <div class="flex">
-        <section class=" h-full w-4xl  pl-1 ">
-          <h1 class="font-extrabold pl-4">Desserts</h1>
+    <main class="p-3  max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 ">
+        <section class=" lg:col-span-8">
+          <h1 class="font-extrabold text-2xl pl-4 mb-4">Desserts</h1>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
               <div class="relative w-full sm:max-w-sm lg:max-w-xs mx-auto m-5">
@@ -37,12 +37,13 @@
                 <button
                   class=" absolute left-1/2 bottom-0 translate-x-[-50%] translate-y-1/2
                    flex items-center gap-2 bg-white px-3 py-2 rounded-full shadow hover:bg-blue-600 border border-gray-400 whitespace-nowrap cursor-pointer"
+                   data-id="waffle-berries" data-name="waffle with Berries" data-price="6.50"   
                    ><div><img src="./assets/images/icon-add-to-cart.svg" alt=""></div>
                   Add to cart
                 </button>
                 </div>
               </div>
-              <p class="text-gray-400">waffle</p>
+              <p class="text-gray-400"    >waffle</p>
               <p class="font-semibold">Waffle with Berries</p>
               <p class="text-red-500 font-medium">$6.50</p>
             </div>
@@ -70,7 +71,8 @@
                 <button
                   class="absolute left-1/2 bottom-0 translate-x-[-50%] translate-y-1/2
                    flex items-center gap-2 bg-white px-3 py-2 rounded-full shadow   border border-gray-400 whitespace-nowrap cursor-pointer"
-                 ><div><img src="./assets/images/icon-add-to-cart.svg" alt=""></div>
+                   data-id="Crème-brulee" data-name="Vanilla Bean Crème Brûlée" data-price="7.00"
+                   ><div><img src="./assets/images/icon-add-to-cart.svg" alt=""></div>
                   Add to cart
                 </button>
               </div>  </picture>
@@ -102,7 +104,8 @@
                 <button
                   class="absolute left-1/2 bottom-0 translate-x-[-50%] translate-y-1/2
                   flex items-center gap-2 bg-white px-3 py-2 rounded-full shadow   border border-gray-400 whitespace-nowrap cursor-pointer"
-                 ><div><img src="./assets/images/icon-add-to-cart.svg" alt=""></div>
+                  data-id="Macaron" data-name="Macaron Mix of Five" data-price="8.00"
+                  ><div><img src="./assets/images/icon-add-to-cart.svg" alt=""></div>
                   Add to cart
                 </button>
               </div>
@@ -134,7 +137,8 @@
                 <button
                   class=" absolute left-1/2 bottom-0 translate-x-[-50%] translate-y-1/2
                    flex items-center gap-2 bg-white px-3 py-2 rounded-full shadow   border border-gray-400 whitespace-nowrap  cursor-pointer" 
-                  ><div><img src="./assets/images/icon-add-to-cart.svg" alt=""></div>
+                   data-id="Tiramisu" data-name="Classic Tiramisu" data-price="5.50" 
+                   ><div><img src="./assets/images/icon-add-to-cart.svg" alt=""></div>
                   Add to cart
                 </button>
               </div>
@@ -167,7 +171,8 @@
                 <button
                   class="absolute left-1/2 bottom-0 translate-x-[-50%] translate-y-1/2
                    flex items-center gap-2 bg-white px-3 py-2 rounded-full shadow   border border-gray-400  whitespace-nowrap cursor-pointer"
-                 ><div><img src="./assets/images/icon-add-to-cart.svg" alt=""></div>
+                   data-id="Baklava" data-name="Pistachio Baklava" data-price="4.00"  
+                   ><div><img src="./assets/images/icon-add-to-cart.svg" alt=""></div>
                   Add to cart
                 </button>
               </div>
@@ -200,6 +205,7 @@
                 <button
                   class="absolute left-1/2 bottom-0 translate-x-[-50%] translate-y-1/2
                    flex items-center gap-2 bg-white px-3 py-2 rounded-full shadow   border border-gray-400  whitespace-nowrap cursor-pointer"
+                   data-id="pie" data-name="Lemon Meringue Pie" data-price="5.00"  
                    ><div><img src="./assets/images/icon-add-to-cart.svg" alt=""></div>
                   Add to cart
                 </button>
@@ -232,7 +238,8 @@
                 <button
                   class="absolute left-1/2 bottom-0 translate-x-[-50%] translate-y-1/2
                   flex items-center gap-2 bg-white px-3 py-2 rounded-full shadow   border border-gray-400 whitespace-nowrap  cursor-pointer"
-                 ><div><img src="./assets/images/icon-add-to-cart.svg" alt=""></div>
+                  data-id="Cake" data-name="Red Velvet Cake" data-price="4.50" 
+                  ><div><img src="./assets/images/icon-add-to-cart.svg" alt=""></div>
                   Add to cart
                 </button>
               </div>
@@ -264,6 +271,7 @@
                 <button
                   class="  absolute left-1/2 bottom-0 translate-x-[-50%] translate-y-1/2
                   flex items-center gap-2 bg-white px-3 py-2 rounded-full shadow   border border-gray-400 whitespace-nowrap   cursor-pointer"
+                  data-id="Brownie" data-name="Salted Caramel Brownie" data-price="4.50"   
                   ><div><img src="./assets/images/icon-add-to-cart.svg" alt=""></div>
                   Add to cart
                 </button>
@@ -296,7 +304,8 @@
                 <button
                   class="  absolute left-1/2 bottom-0 translate-x-[-50%] translate-y-1/2
                   flex items-center gap-2 bg-white px-3 py-2 rounded-full shadow   border border-gray-400 whitespace-nowrap cursor-pointer"
-                 ><div><img src="./assets/images/icon-add-to-cart.svg" alt=""></div>
+                  data-id="Panna-cotta" data-name="Vanilla Panna Cotta" data-price="6.50" 
+                  ><div><img src="./assets/images/icon-add-to-cart.svg" alt=""></div>
                   Add to cart
                 </button>
               </div>
@@ -306,7 +315,11 @@
             </div>
           </div>
         </section>
+        <div>
+          <div class="text-red-500  p-4 min-h-100 w-xs bg-blue-300 text-xl font-extrabold">Your cart(0)</div>
+        </div>
       </div>
     </main>
+    <script src="script.js"></script>
   </body>
 </html>
