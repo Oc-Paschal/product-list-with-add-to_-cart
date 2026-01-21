@@ -1,108 +1,109 @@
-
-document.querySelectorAll(".product-card").forEach(card => {
-  const addBtn = card.querySelector(".btn");
-  const quantityBox = card.querySelector(".quantity");
-  const minusBtn = card.querySelector(".minus");
-  const plusBtn = card.querySelector(".plus");
-  const countNo = card.querySelector(".count");
-
-  let count = 1;
-  
-  addBtn.addEventListener("click", () => {
-    card.classList.add("border-2", "border-red-500","rounded-xl" );
-    addBtn.classList.add("hidden");
-    quantityBox.classList.remove("hidden");
-    countNo.textContent = count;
-  });
-
-  plusBtn.addEventListener("click", () => {
-    count++;
-    countNo.textContent = count;
-  });
-
-  minusBtn.addEventListener("click", () => {
-    if (count > 1) {
-      count--;
-      countNo.textContent = count;
+const products = [
+  {
+    id: 1,
+    name: "Waffle with Berries",
+    price: 6.50,
+    images: {
+      mobile: "./assets/images/image-waffle-mobile.jpg",
+      tablet: "./assets/images/image-waffle-tablet.jpg",
+      desktop: "./assets/images/image-waffle-desktop.jpg",
     }
-  });
-});
-
-
-
-// Initialize cart array
-let cart = [];
-
-// Get cart DOM elements
-const productCountEl = document.getElementById("product-count");
-const orderTotalEl = document.getElementById("orderTotal");
-
-// Loop through each product card
-document.querySelectorAll(".product-card").forEach(card => {
-  const minus = card.querySelector(".minus");
-  const plus = card.querySelector(".plus");
-  const quantityEl = card.querySelector(".quantity");
-  const addToCart = card.querySelector(".add-to-cart");
-
-  // Increment quantity
-  plus.addEventListener("click", () => {
-    let qty = parseInt(quantityEl.textContent);
-    quantityEl.textContent = qty + 1;
-    updateCartLive(card, parseInt(quantityEl.textContent)); // optional live update
-  });
-
-  // Decrement quantity
-  minus.addEventListener("click", () => {
-    let qty = parseInt(quantityEl.textContent);
-    if (qty > 1) quantityEl.textContent = qty - 1;
-    updateCartLive(card, parseInt(quantityEl.textContent)); // optional live update
-  });
-
-  // Add to cart
-  addToCart.addEventListener("click", () => {
-    const productName = card.querySelector(".product-name").textContent;
-    const productPrice = parseFloat(card.querySelector(".product-price").textContent.slice(1));
-    const quantity = parseInt(quantityEl.textContent);
-
-    // Check if item already exists in cart
-    const existing = cart.find(item => item.name === productName);
-    if (existing) {
-      existing.quantity += quantity; // increment quantity
-    } else {
-      cart.push({ name: productName, price: productPrice, quantity: quantity });
+  },
+  {
+    id: 2,
+    name: "Vanilla Bean Crème Brûlée",
+    price: 7.00,
+    images: {
+      mobile: "./assets/images/image-creme-brulee-mobile.jpg",
+      tablet: "./assets/images/image-creme-brulee-tablet.jpg",
+      desktop: "./assets/images/image-creme-brulee-desktop.jpg",
     }
-
-    renderCart();
-  });
-});
-
-// Render cart function
-function renderCart() {
-  let totalQty = 0;
-  let totalPrice = 0;
-
-  cart.forEach(item => {
-    totalQty += item.quantity;
-    totalPrice += item.price * item.quantity;
-  });
-
-  productCountEl.textContent = totalQty;
-  orderTotalEl.textContent = `$${totalPrice.toFixed(2)}`;
-}
-
-// Optional: live cart update when quantity changes before clicking Add to Cart
-function updateCartLive(card, qty) {
-  const productName = card.querySelector(".product-name").textContent;
-  const productPrice = parseFloat(card.querySelector(".product-price").textContent.slice(1));
-
-  const existing = cart.find(item => item.name === productName);
-  if (existing) {
-    existing.quantity = qty; // update quantity live
-  } else {
-    // Only add temporarily if you want live preview before clicking "Add to Cart"
-    // Comment this out if you don't want auto-add
-    // cart.push({ name: productName, price: productPrice, quantity: qty });
+  },
+  {
+    id: 3,
+    name: "Macaron Mix of Five",
+    price: 8.00,
+    images: {
+      mobile: "./assets/images/image-macaron-mobile.jpg",
+      tablet: "./assets/images/image-macaron-tablet.jpg",
+      desktop: "./assets/images/image-macaron-desktop.jpg",
+    }
+  },
+  {
+    id: 4,
+    name: "Classic Tiramisu",
+    price: 5.50,
+    images: {
+      mobile: "./assets/images/image-tiramisu-mobile.jpg",
+      tablet: "./assets/images/image-tiramisu-tablet.jpg",
+      desktop: "./assets/images/image-tiramisu-desktop.jpg",
+    }
+  },
+  {
+    id: 5,
+    name: "Pistachio Baklava",
+    price: 4.00,
+    images: {
+      mobile: "./assets/images/image-baklava-mobile.jpg",
+      tablet: "./assets/images/image-baklava-tablet.jpg",
+      desktop: "./assets/images/image-baklava-desktop.jpg",
+    }
+  },
+  {
+    id: 6,
+    name: "Lemon Meringue Pie",
+    price: 5.00,
+    images: {
+      mobile: "./assets/images/image-meringue-mobile.jpg",
+      tablet: "./assets/images/image-meringue-tablet.jpg",
+      desktop: "./assets/images/image-meringue-desktop.jpg",
+    }
+  },
+  {
+    id: 7,
+    name: "Red Velvet Cake",
+    price: 4.50,
+    images: {
+      mobile: "./assets/images/image-cake-mobile.jpg",
+      tablet: "./assets/images/image-cake-tablet.jpg",
+      desktop: "./assets/images/image-cake-desktop.jpg",
+    }
+  },
+  {
+    id: 8,
+    name: "Salted Caramel Brownie",
+    price: 4.50,
+    images: {
+      mobile: "./assets/images/image-brownie-mobile.jpg",
+      tablet: "./assets/images/image-brownie-tablet.jpg",
+      desktop: "./assets/images/image-brownie-desktop.jpg",
+    }
+  },
+  {
+    id: 9,
+    name: "Vanilla Panna Cotta",
+    price: 6.50,
+    images: {
+      mobile: "./assets/images/image-panna-cotta-mobile.jpg",
+      tablet: "./assets/images/image-panna-cotta-tablet.jpg",
+      desktop: "./assets/images/image-panna-cotta-desktop.jpg",
+    }
   }
+];
 
-  renderCart();
-}
+
+
+const productList = document.getElementById("product-list");
+
+products.forEach(product => {
+  productList.innerHTML += `
+    <div class="product-card border rounded-xl p-4">
+      <img src="${product.image}" class="rounded-lg mb-3">
+      <h3 class="font-semibold">${product.name}</h3>
+      <p class="text-gray-600">$${product.price}</p>
+      <button class="btn mt-3 bg-orange-500 text-white px-4 py-2 rounded">
+        Add to cart
+      </button>
+    </div>
+  `;
+});
