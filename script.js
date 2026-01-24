@@ -100,7 +100,6 @@ const products = [
   }
 ];
 
-
 const productList = document.getElementById("product-list");
 
 products.forEach(product => {
@@ -130,8 +129,8 @@ products.forEach(product => {
 
     <button class="minus w-6 h-6 flex items-center justify-center
          rounded-full border-2 border-white text-white font-bold">−</button>
-    <span class="count text-sm font-semibold">1</span>
-    <button class="plus w-6 h-6 flex items-center justify-center
+            <span class="count text-sm font-semibold">1</span>
+          <button class="plus w-6 h-6 flex items-center justify-center
          rounded-full border-2 border-white text-white font-bold">+</button>
   </div>
 
