@@ -1,5 +1,4 @@
-const products = [
-  {
+const products = [{
     id: 1,
     category: "waffle",
     name: "Waffle with Berries",
@@ -23,7 +22,7 @@ const products = [
   },
   {
     id: 3,
-    category:"Macaron",
+    category: "Macaron",
     name: "Macaron Mix of Five",
     price: 8.00,
     images: {
@@ -34,7 +33,7 @@ const products = [
   },
   {
     id: 4,
-    category:"Tiramisu",
+    category: "Tiramisu",
     name: "Classic Tiramisu",
     price: 5.50,
     images: {
@@ -45,7 +44,7 @@ const products = [
   },
   {
     id: 5,
-    category:"Baklava",
+    category: "Baklava",
     name: "Pistachio Baklava",
     price: 4.00,
     images: {
@@ -56,7 +55,7 @@ const products = [
   },
   {
     id: 6,
-    category:"Pie",
+    category: "Pie",
     name: "Lemon Meringue Pie",
     price: 5.00,
     images: {
@@ -67,7 +66,7 @@ const products = [
   },
   {
     id: 7,
-    category:"Cake",
+    category: "Cake",
     name: "Red Velvet Cake",
     price: 4.50,
     images: {
@@ -78,7 +77,7 @@ const products = [
   },
   {
     id: 8,
-    category:"Brownie",
+    category: "Brownie",
     name: "Salted Caramel Brownie",
     price: 4.50,
     images: {
@@ -89,7 +88,7 @@ const products = [
   },
   {
     id: 9,
-    category:"Panna Cotta",
+    category: "Panna Cotta",
     name: "Vanilla Panna Cotta",
     price: 6.50,
     images: {
@@ -99,6 +98,8 @@ const products = [
     }
   }
 ];
+
+const cart = {};
 
 const productList = document.getElementById("product-list");
 
@@ -110,28 +111,30 @@ products.forEach(product => {
         <picture>
           <source srcset="${product.images.desktop}" media="(min-width:1025px)">
           <source srcset="${product.images.tablet}" media="(min-width:768px)">
+
           <div class="image-wrapper rounded-xl overflow-hidden border border-transparent">
           <img src="${product.images.mobile}"
-               class="w-full h-64 object-cover rounded-lg">
+               class="w-full h-64 object-cover rounded-lg"
+               data-image-id="${product.id}">
                </div>
               
         </picture>
 
         <button
           class=" add-btn absolute left-1/2 bottom-0 translate-x-[-50%] translate-y-1/2
-          flex items-center gap-2 bg-white px-3 py-2 rounded-full shadow border border-gray-400">
+          flex items-center gap-2 bg-white px-3 py-2 rounded-full shadow border border-gray-400 cursor-pointer" data-id="${product.id}">
           <img src="./assets/images/icon-add-to-cart.svg" alt="">
           Add to cart
         </button>
         <div
-    class="quantity hidden absolute left-1/2 bottom-0 -translate-x-1/2 translate-y-1/2
-           flex items-center gap-4 bg-orange-600 text-white px-4 py-2 rounded-full shadow">
+         class="quantity hidden absolute left-1/2 bottom-0 -translate-x-1/2 translate-y-1/2
+           flex items-center gap-4 bg-orange-600 text-white px-4 py-2 rounded-full shadow" data-qty-id="${product.id}">
 
-    <button class="minus w-6 h-6 flex items-center justify-center
-         rounded-full border-2 border-white text-white font-bold">−</button>
+            <button class="minus w-6 h-6 flex items-center justify-center
+            rounded-full border-2 border-white text-white font-bold cursor-pointer">−</button>
             <span class="count text-sm font-semibold">1</span>
           <button class="plus w-6 h-6 flex items-center justify-center
-         rounded-full border-2 border-white text-white font-bold">+</button>
+         rounded-full border-2 border-white text-white font-bold cursor-pointer">+</button>
   </div>
 
       </div>
@@ -142,6 +145,63 @@ products.forEach(product => {
     </div>
   `;
 });
+
+function renderCart() {
+  const cartItems = document.getElementById("cart-items");
+  const productCount = document.getElementById("product-count");
+  const orderTotal = document.getElementById("orderTotal");
+
+  cartItems.innerHTML = "";
+
+  let totalItems = 0;
+  let totalPrice = 0;
+
+  for (let id in cart) {
+    const item = cart[id];
+
+    totalItems += item.qty;
+    totalPrice += item.qty * item.price;
+
+    cartItems.innerHTML += `
+      <div class="text-sm">
+        <div class="flex justify-between">
+          <p class="font-semibold">${item.name}</p>
+          <button class="remove text-gray-400 cursor-pointer" data-remove="${id}">✕</button>
+        </div>
+
+        <div class="flex justify-between text-gray-500">
+          <p>${item.qty} × $${item.price.toFixed(2)}</p>
+          <p class="font-semibold">
+            $${(item.qty * item.price).toFixed(2)}
+          </p>
+        </div>
+        <hr class="p-1">
+      </div>
+    `;
+  }
+
+  productCount.textContent = totalItems;
+  orderTotal.textContent = `$${totalPrice.toFixed(2)}`;
+
+  document.querySelectorAll(".remove").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.remove;
+      delete cart[id];
+      resetProductUI(id);
+      renderCart();
+    });
+  });
+}
+
+function resetProductUI(id) {
+  const img = document.querySelector(`[data-image-id="${id}"]`);
+  const addBtn = document.querySelector(`[data-id="${id}"]`);
+  const qtyBox = document.querySelector(`[data-qty-id="${id}"]`);
+
+  img.classList.remove("border-2", "border-orange-600");
+  addBtn.classList.remove("hidden");
+  qtyBox.classList.add("hidden");
+}
 
 
 document.querySelectorAll(".product-card").forEach(card => {
@@ -155,25 +215,52 @@ document.querySelectorAll(".product-card").forEach(card => {
   let count = 1;
 
   addBtn.addEventListener("click", () => {
+    const id = addBtn.dataset.id;
+    const product = products.find(p => p.id == id);
+
     imageWrapper.classList.add("border-2", "border-orange-600");
     imageWrapper.classList.remove("border-transparent");
 
     addBtn.classList.add("hidden");
     quantityBox.classList.remove("hidden");
 
+    count = 1;
     countEl.textContent = count;
+
+    cart[id] = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      qty: count
+    };
+
+    renderCart();
   });
 
   plusBtn.addEventListener("click", () => {
     count++;
     countEl.textContent = count;
+
+    const id = addBtn.dataset.id;
+    cart[id].qty = count;
+
+    renderCart();
   });
 
+
   minusBtn.addEventListener("click", () => {
+    const id = addBtn.dataset.id;
+
     if (count > 1) {
       count--;
       countEl.textContent = count;
+      cart[id].qty = count;
+    } else {
+      delete cart[id];
+      resetProductUI(id);
     }
-  });
-});
 
+    renderCart();
+  });
+
+});
