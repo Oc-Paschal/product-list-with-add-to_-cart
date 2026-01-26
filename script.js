@@ -264,3 +264,51 @@ document.querySelectorAll(".product-card").forEach(card => {
   });
 
 });
+
+const confirmOrderBtn = document.getElementById("confirmOrderBtn");
+const orderModal = document.getElementById("orderModal");
+
+confirmOrderBtn.addEventListener("click", () => {
+  orderModal.classList.remove("hidden");
+});
+
+const orderSummary = document.getElementById("orderSummary");
+const orderTotal = document.getElementById("orderTotal");
+
+function calculateTotal() {
+  let total = 0;
+
+  Object.values(cart).forEach(item => {
+    total += item.price * item.qty;
+  });
+
+  return total;
+}
+
+
+function showOrderSummary() {
+  orderSummary.innerHTML = "";
+
+  Object.values(cart).forEach(item => {
+    orderSummary.innerHTML += `
+      <div class="flex justify-between text-sm">
+        <span>${item.name} x${item.qty}</span>
+        <span>$${(item.price * item.qty).toFixed(2)}</span>
+      </div>
+    `;
+  });
+
+  orderTotal.textContent = `$${calculateTotal().toFixed(2)}`;
+}
+
+
+confirmOrderBtn.addEventListener("click", () => {
+  showOrderSummary(cart);
+  orderModal.classList.remove("hidden");
+});
+
+const newOrderBtn = document.getElementById("newOrderBtn");
+
+newOrderBtn.addEventListener("click", () => {
+  window.location.reload();
+});

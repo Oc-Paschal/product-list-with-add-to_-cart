@@ -26,13 +26,45 @@
               <img src="./assets/images/icon-carbon-neutral.svg" alt="">
               <span>This is a carbon-neutral delivery</span>
             </div>
-            <button id="confirmOrder"
+            <button id="confirmOrderBtn"
               class=" mt-6 w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 rounded-full transition cursor-pointer">
               Confirm Order
             </button>
 
           </div>
         </div>
+        
+<div
+  id="orderModal"
+  class="fixed inset-0 bg-black/40 flex items-center justify-center hidden z-50"
+>
+  <div class="bg-white w-[90%] max-w-md rounded-2xl p-6">
+    
+    <div class="text-center">
+      <div class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-green-100 text-green-600">
+      <img src="./assets/images/icon-order-confirmed.svg">
+      </div>
+      <h2 class="text-xl font-bold text-gray-900">Order Confirmed</h2>
+      <p class="text-sm text-gray-500">We hope you enjoy your food!</p>
+    </div>
+    
+    <div id="orderSummary" class="mt-6 space-y-3 bg-gray-50 p-4 rounded-lg">
+    </div>
+
+    <div class="mt-4 flex items-center justify-between text-gray-900 font-semibold">
+      <span>Order Total</span>
+      <span id="orderTotal"></span>
+    </div>
+
+    <button
+      id="newOrderBtn"
+      class="mt-6 w-full rounded-full bg-orange-600 py-3 text-white font-semibold hover:bg-orange-700 transition"
+    >
+      Start New Order
+    </button>
+  </div>
+</div>
+
   </main>
   <script src="script.js"></script>
 </body>
