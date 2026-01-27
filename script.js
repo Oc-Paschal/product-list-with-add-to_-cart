@@ -111,31 +111,34 @@ products.forEach(product => {
         <picture>
           <source srcset="${product.images.desktop}" media="(min-width:1025px)">
           <source srcset="${product.images.tablet}" media="(min-width:768px)">
-
           <div class="image-wrapper rounded-xl overflow-hidden border border-transparent">
-          <img src="${product.images.mobile}"
-               class="w-full h-64 object-cover rounded-lg"
-               data-image-id="${product.id}">
-               </div>
-              
+            <img src="${product.images.mobile}"
+                 class="w-full h-64 object-cover rounded-lg"
+                 data-image-id="${product.id}">
+          </div>
         </picture>
 
         <button
-          class=" add-btn absolute left-1/2 bottom-0 translate-x-[-50%] translate-y-1/2
-          flex items-center gap-2 bg-white px-3 py-2 rounded-full shadow border border-gray-400 cursor-pointer" data-id="${product.id}">
+          class="add-btn absolute left-1/2 bottom-0 -translate-x-1/2 translate-y-1/2
+          flex items-center gap-2 bg-white px-3 py-2 rounded-full shadow border border-gray-400 cursor-pointer"
+          data-id="${product.id}">
           <img src="./assets/images/icon-add-to-cart.svg" alt="">
           Add to cart
         </button>
-        <div
-         class="quantity hidden absolute left-1/2 bottom-0 -translate-x-1/2 translate-y-1/2
-           flex items-center gap-4 bg-orange-600 text-white px-4 py-2 rounded-full shadow" data-qty-id="${product.id}">
 
-            <button class="minus w-6 h-6 flex items-center justify-center
-            rounded-full border-2 border-white text-white font-bold cursor-pointer">−</button>
-            <span class="count text-sm font-semibold">1</span>
+        <div
+          class="quantity hidden absolute left-1/2 bottom-0 -translate-x-1/2 translate-y-1/2
+          flex items-center gap-4 bg-orange-600 text-white px-4 py-2 rounded-full shadow"
+          data-qty-id="${product.id}">
+
+          <button class="minus w-6 h-6 flex items-center justify-center
+            rounded-full border-2 border-white font-bold cursor-pointer">−</button>
+
+          <span class="count text-sm font-semibold">1</span>
+
           <button class="plus w-6 h-6 flex items-center justify-center
-         rounded-full border-2 border-white text-white font-bold cursor-pointer">+</button>
-  </div>
+            rounded-full border-2 border-white font-bold cursor-pointer">+</button>
+        </div>
 
       </div>
 
@@ -145,6 +148,7 @@ products.forEach(product => {
     </div>
   `;
 });
+
 
 function renderCart() {
   const cartItems = document.getElementById("cart-items");
@@ -158,7 +162,6 @@ function renderCart() {
 
   for (let id in cart) {
     const item = cart[id];
-
     totalItems += item.qty;
     totalPrice += item.qty * item.price;
 
@@ -171,11 +174,9 @@ function renderCart() {
 
         <div class="flex justify-between text-gray-500">
           <p>${item.qty} × $${item.price.toFixed(2)}</p>
-          <p class="font-semibold">
-            $${(item.qty * item.price).toFixed(2)}
-          </p>
+          <p class="font-semibold">$${(item.qty * item.price).toFixed(2)}</p>
         </div>
-        <hr class="p-1">
+        <hr class="my-2">
       </div>
     `;
   }
@@ -183,7 +184,8 @@ function renderCart() {
   productCount.textContent = totalItems;
   orderTotal.textContent = `$${totalPrice.toFixed(2)}`;
 
-  document.querySelectorAll(".remove").forEach((btn) => {
+
+  document.querySelectorAll(".remove").forEach(btn => {
     btn.addEventListener("click", () => {
       const id = btn.dataset.remove;
       delete cart[id];
@@ -202,7 +204,6 @@ function resetProductUI(id) {
   addBtn.classList.remove("hidden");
   qtyBox.classList.add("hidden");
 }
-
 
 document.querySelectorAll(".product-card").forEach(card => {
   const addBtn = card.querySelector(".add-btn");
@@ -231,7 +232,8 @@ document.querySelectorAll(".product-card").forEach(card => {
       id: product.id,
       name: product.name,
       price: product.price,
-      qty: count
+      qty: count,
+      image: product.images.mobile,
     };
 
     renderCart();
@@ -240,14 +242,11 @@ document.querySelectorAll(".product-card").forEach(card => {
   plusBtn.addEventListener("click", () => {
     count++;
     countEl.textContent = count;
-
-    const id = addBtn.dataset.id;
-    cart[id].qty = count;
-
+    cart[addBtn.dataset.id].qty = count;
     renderCart();
   });
 
-
+  
   minusBtn.addEventListener("click", () => {
     const id = addBtn.dataset.id;
 
@@ -262,53 +261,59 @@ document.querySelectorAll(".product-card").forEach(card => {
 
     renderCart();
   });
-
 });
 
 const confirmOrderBtn = document.getElementById("confirmOrderBtn");
 const orderModal = document.getElementById("orderModal");
+const orderSummary = document.getElementById("orderSummary");
+const modalOrderTotal = document.getElementById("modalOrderTotal");
 
 confirmOrderBtn.addEventListener("click", () => {
+  showOrderSummary();
   orderModal.classList.remove("hidden");
 });
 
-const orderSummary = document.getElementById("orderSummary");
-const orderTotal = document.getElementById("orderTotal");
-
 function calculateTotal() {
-  let total = 0;
-
-  Object.values(cart).forEach(item => {
-    total += item.price * item.qty;
-  });
-
-  return total;
+  return Object.values(cart).reduce(
+    (sum, item) => sum + item.price * item.qty,
+    0
+  );
 }
-
 
 function showOrderSummary() {
   orderSummary.innerHTML = "";
 
   Object.values(cart).forEach(item => {
     orderSummary.innerHTML += `
-      <div class="flex justify-between text-sm">
-        <span>${item.name} x${item.qty}</span>
-        <span>$${(item.price * item.qty).toFixed(2)}</span>
+      <div class="flex items-center justify-between gap-3 py-2">
+        
+        <div class="flex items-center gap-3">
+          <img 
+            src="${item.image}" 
+            alt="${item.name}" 
+            class="w-10 h-10 rounded-md object-cover"
+          />
+
+          <div class="text-sm">
+            <p class="font-semibold">${item.name}</p>
+            <p class="text-gray-500">${item.qty} × $${item.price.toFixed(2)}</p>
+          </div>
+        </div>
+
+        <p class="font-semibold text-sm">
+          $${(item.price * item.qty).toFixed(2)}
+        </p>
+
       </div>
+      
     `;
+    
   });
 
-  orderTotal.textContent = `$${calculateTotal().toFixed(2)}`;
+  modalOrderTotal.textContent = `$${calculateTotal().toFixed(2)}`;
 }
 
 
-confirmOrderBtn.addEventListener("click", () => {
-  showOrderSummary(cart);
-  orderModal.classList.remove("hidden");
-});
-
-const newOrderBtn = document.getElementById("newOrderBtn");
-
-newOrderBtn.addEventListener("click", () => {
+document.getElementById("newOrderBtn").addEventListener("click", () => {
   window.location.reload();
 });
